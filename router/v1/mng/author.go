@@ -10,5 +10,5 @@ func SetupAuthor(v router.Party) {
 		authorController = ctrls.AuthorController{}
 	)
 
-	v.Get("/articles/{id:int}", authorController.GetAuthorInfo)
+	v.Get("/author", authorController.GetAuthorInfo)
 }

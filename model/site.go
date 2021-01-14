@@ -6,10 +6,11 @@ import "time"
 type Site struct {
 	Model
 
-	Name    string    `json:"name"`    // 网站名称
-	BeiAn   string    `json:"bei_an"`  // 备案号
-	Powered string    `json:"powered"` // 站点引擎
-	StartAt time.Time `json:"startAt"` // 站点启动日期
+	Name    string    `json:"name"`                   // 网站名称
+	BeiAn   string    `json:"bei_an"`                 // 备案号
+	Powered string    `json:"powered"`                // 站点引擎
+	StartAt time.Time `json:"startAt"`                // 站点启动日期
+	Extra   string    `json:"extra" gorm:"type:json"` // 拓展字段
 }
 
 func (Site) TableName() string {

@@ -4,9 +4,9 @@ package model
 type Category struct {
 	Model
 
-	Name        string `json:"name"`        // 分类名称
-	Description string `json:"description"` // 分类描述
-	Extra       string `json:"extra"`       // 拓展字段
+	Name        string `json:"name"`                   // 分类名称
+	Description string `json:"description"`            // 分类描述
+	Extra       string `json:"extra" gorm:"type:json"` // 拓展字段
 }
 
 func (Category) TableName() string {
