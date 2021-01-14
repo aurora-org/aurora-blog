@@ -21,6 +21,10 @@ server:
 clean:
 	rm ${BINARY_NAME}
 
+# help
+help: binary
+	${BINARY_NAME} -h
+
 # alias
 package: binary
 dev: development
