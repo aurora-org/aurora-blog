@@ -11,13 +11,29 @@ import (
 func main() {
 	common.SetupConfig()
 	common.SetupDB()
-	db := common.AuroraRW
+	tx := common.AuroraRW.Begin()
 
 	defer func() {
-		_ = db.Close()
+		_ = tx.Close()
 	}()
 
-	if err := db.AutoMigrate(&model.Article{}, &model.Author{}, &model.Category{}, &model.Site{}, &model.Tag{}).Error; err != nil {
+	if err := tx.AutoMigrate(&model.Article{}, &model.Author{}, &model.Tag{}, &model.Category{}, &model.Site{}).Error; err != nil {
+		tx.Rollback()
 		log.Fatal(err)
 	}
+
+	if err := tx.Create(&model.Author{
+		Name:     "wimi",
+		NickName: "ass",
+		Age:      22,
+		Gender:   1,
+		Hobby:    "sing dance and rap",
+		Avatar:   "https://image.qmdx00.cn/black_avatar.jpeg",
+		Extra:    "",
+	}).Error; err != nil {
+		tx.Rollback()
+		log.Fatal(err)
+	}
+
+	tx.Commit()
 }

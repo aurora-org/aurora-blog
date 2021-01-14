@@ -12,7 +12,7 @@ type Article struct {
 	Category string `json:"category"`                 // 文章分类
 	Times    int    `json:"times"`                    // 阅读次数
 	Visible  bool   `json:"visible"`                  // 是否可见
-	Extra    string `json:"extra" gorm:"type:json"`   // 拓展字段
+	Extra    string `json:"extra"`                    // 拓展字段
 }
 
 func (Article) TableName() string {
