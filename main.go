@@ -7,5 +7,7 @@ import (
 
 func main() {
 	common.SetupConfig()
-	server.InitServer()
+	common.SetupDB()
+	server.SetupGraphQL()
+	server.SetupServer()
 }

@@ -7,16 +7,16 @@ type PaginationData struct {
 
 type Pagination struct {
 	Total int `json:"total"`
-	From  int `json:"from"`
-	To    int `json:"to"`
+	Page  int `json:"page"`
+	Size  int `json:"size"`
 }
 
 func NewEmptyPaginationData() PaginationData {
 	return PaginationData{
 		Pagination: Pagination{
 			Total: 0,
-			From:  0,
-			To:    0,
+			Page:  0,
+			Size:  0,
 		},
 		Objects: []struct{}{},
 	}

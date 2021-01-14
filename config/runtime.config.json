@@ -1,3 +1,31 @@
 {
-
+  "name": "Aurora Blog V1.0",
+  "isDevelopment": true,
+  "server": {
+    "log": {
+      "file": "aurora.log"
+    }
+  },
+  "config": {
+    "database": {
+      "aurora-db": {
+        "wr": {
+          "dialect": "mysql",
+          "user": "root",
+          "password": "qmdx00",
+          "database": "aurora-db",
+          "host": "127.0.0.1",
+          "port": 3306
+        },
+        "r": {
+          "dialect": "mysql",
+          "user": "root",
+          "password": "qmdx00",
+          "database": "aurora-db",
+          "host": "127.0.0.1",
+          "port": 3306
+        }
+      }
+    }
+  }
 }
