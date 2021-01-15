@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"aurora/blog/api/constant"
+	"time"
+)
 
 // 站点信息
 type Site struct {
@@ -15,4 +18,16 @@ type Site struct {
 
 func (Site) TableName() string {
 	return "site"
+}
+
+func (self *Site) Mapping() map[string]interface{} {
+	return map[string]interface{}{
+		"name":      self.Name,
+		"beiAn":     self.BeiAn,
+		"powered":   self.Powered,
+		"startAt":   self.StartAt,
+		"extra":     self.Extra,
+		"createdAt": self.CreatedAt.Format(constant.SimpleTimeFormat),
+		"updatedAt": self.UpdatedAt.Format(constant.SimpleTimeFormat),
+	}
 }

@@ -13,11 +13,19 @@ func main() {
 	common.SetupDB()
 	tx := common.AuroraRW.Begin()
 
+	models := []interface{}{
+		&model.Article{},
+		&model.Author{},
+		&model.Tag{},
+		&model.Category{},
+		&model.Site{},
+	}
+
 	defer func() {
 		_ = tx.Close()
 	}()
 
-	if err := tx.AutoMigrate(&model.Article{}, &model.Author{}, &model.Tag{}, &model.Category{}, &model.Site{}).Error; err != nil {
+	if err := tx.AutoMigrate(models...).Error; err != nil {
 		tx.Rollback()
 		log.Fatal(err)
 	}
