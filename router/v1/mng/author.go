@@ -11,4 +11,5 @@ func SetupAuthor(v router.Party) {
 	)
 
 	v.Get("/author", authorController.GetAuthorInfo)
+	v.Post("/author", authorController.UpdateAuthorInfo)
 }

@@ -2,6 +2,7 @@ package mng
 
 import (
 	ctrls "aurora/blog/api/controller"
+	"aurora/blog/api/middleware"
 	"github.com/kataras/iris/v12/core/router"
 )
 
@@ -9,8 +10,8 @@ func SetupArticle(v router.Party) {
 
 	var (
 		articleController = ctrls.ArticleController{}
-		//page           = middleware.Pagination{}
+		pagination        = middleware.Pagination{}
 	)
 
-	v.Get("/articles", articleController.GetArticles)
+	v.Get("/articles", pagination.Limit, articleController.GetArticles)
 }
