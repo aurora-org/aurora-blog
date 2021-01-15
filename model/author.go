@@ -1,5 +1,7 @@
 package model
 
+import "aurora/blog/api/constant"
+
 // 作者信息
 type Author struct {
 	Model
@@ -15,4 +17,18 @@ type Author struct {
 
 func (Author) TableName() string {
 	return "author"
+}
+
+func (self *Author) Mapping() map[string]interface{} {
+	return map[string]interface{}{
+		"name":      self.Name,
+		"nickName":  self.NickName,
+		"age":       self.Age,
+		"gender":    self.Gender,
+		"hobby":     self.Hobby,
+		"avatar":    self.Avatar,
+		"extra":     self.Extra,
+		"createdAt": self.CreatedAt.Format(constant.SimpleTimeFormat),
+		"updatedAt": self.UpdatedAt.Format(constant.SimpleTimeFormat),
+	}
 }

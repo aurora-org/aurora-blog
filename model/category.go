@@ -1,5 +1,7 @@
 package model
 
+import "aurora/blog/api/constant"
+
 // 文章分类信息
 type Category struct {
 	Model
@@ -11,4 +13,15 @@ type Category struct {
 
 func (Category) TableName() string {
 	return "category"
+}
+
+func (self *Category) Mapping() map[string]interface{} {
+	return map[string]interface{}{
+		"id":          self.ID,
+		"name":        self.Name,
+		"description": self.Description,
+		"extra":       self.Extra,
+		"createdAt":   self.CreatedAt.Format(constant.SimpleTimeFormat),
+		"updatedAt":   self.UpdatedAt.Format(constant.SimpleTimeFormat),
+	}
 }

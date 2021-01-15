@@ -18,3 +18,20 @@ type Article struct {
 func (Article) TableName() string {
 	return "article"
 }
+
+func (self *Article) Mapping() map[string]interface{} {
+	return map[string]interface{}{
+		"id":        self.ID,
+		"title":     self.Title,
+		"content":   self.Content,
+		"banner":    self.Banner,
+		"author":    self.Author,
+		"tag":       self.Tag,
+		"category":  self.Category,
+		"times":     self.Times,
+		"visible":   self.Visible,
+		"extra":     self.Extra,
+		"createdAt": self.CreatedAt,
+		"updatedAt": self.UpdatedAt,
+	}
+}
