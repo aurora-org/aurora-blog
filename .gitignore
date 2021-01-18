@@ -2,3 +2,4 @@
 /.vscode/
 /vendor/
 **/aurora
+**/.DS_Store
