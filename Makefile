@@ -29,4 +29,4 @@ help: binary
 package: binary
 dev: development
 
-.PHONY: config binary development server clean package dev
+.PHONY: config binary development server clean help package dev
