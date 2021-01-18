@@ -30,17 +30,21 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if err := tx.Create(&model.Author{
-		Name:     "wimi",
-		NickName: "ass",
-		Age:      22,
-		Gender:   1,
-		Hobby:    "sing dance and rap",
-		Avatar:   "https://image.qmdx00.cn/black_avatar.jpeg",
-		Extra:    "",
-	}).Error; err != nil {
-		tx.Rollback()
-		log.Fatal(err)
+	var count int
+	tx.Model(model.Author{}).Count(&count)
+	if count == 0 {
+		if err := tx.Create(&model.Author{
+			Name:     "wimi",
+			NickName: "ass",
+			Age:      22,
+			Gender:   1,
+			Hobby:    "sing dance and rap",
+			Avatar:   "https://image.qmdx00.cn/black_avatar.jpeg",
+			Extra:    "",
+		}).Error; err != nil {
+			tx.Rollback()
+			log.Fatal(err)
+		}
 	}
 
 	tx.Commit()
