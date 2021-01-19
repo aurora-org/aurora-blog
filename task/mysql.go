@@ -3,6 +3,7 @@ package main
 import (
 	"aurora/blog/api/common"
 	"aurora/blog/api/model"
+	"aurora/blog/api/tool"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"time"
@@ -21,6 +22,7 @@ func main() {
 		&model.Tag{},
 		&model.Category{},
 		&model.Site{},
+		&model.Account{},
 	}
 
 	defer func() {
@@ -56,6 +58,17 @@ func main() {
 			Name:    "Skyscraper",
 			Powered: "Wimi",
 			StartAt: time.Now(),
+		}).Error; err != nil {
+			tx.Rollback()
+			log.Fatal(err)
+		}
+	}
+
+	tx.Model(model.Account{}).Count(&count)
+	if count == 0 {
+		if err := tx.Create(&model.Account{
+			UserName: "admin",
+			Password: tool.Md5Encode("aurora"),
 		}).Error; err != nil {
 			tx.Rollback()
 			log.Fatal(err)

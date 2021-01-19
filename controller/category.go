@@ -17,7 +17,7 @@ func (*CategoryController) GetCategories(ctx iris.Context) {
 
 	categories, err := categoryService.GetCategories()
 	if err != nil {
-		common.Render(ctx, status.InternalServerError, err)
+		common.Render(ctx, status.InternalServerError, err.Error())
 		return
 	}
 
@@ -34,7 +34,7 @@ func (*CategoryController) CreateCategory(ctx iris.Context) {
 
 	params := simplejson.New()
 	if err := ctx.ReadJSON(&params); err != nil {
-		common.Render(ctx, status.BadRequest, err)
+		common.Render(ctx, status.BadRequest, err.Error())
 		return
 	}
 
@@ -46,13 +46,13 @@ func (*CategoryController) CreateCategory(ctx iris.Context) {
 
 	categoryId, err := categoryService.CreateCategory(category)
 	if err != nil {
-		common.Render(ctx, status.InternalServerError, err)
+		common.Render(ctx, status.InternalServerError, err.Error())
 		return
 	}
 
 	saved, err := categoryService.GetCategoryById(categoryId)
 	if err != nil {
-		common.Render(ctx, status.InternalServerError, err)
+		common.Render(ctx, status.InternalServerError, err.Error())
 		return
 	}
 
@@ -64,7 +64,7 @@ func (*CategoryController) DeleteCategory(ctx iris.Context) {
 	categoryId, _ := ctx.Params().GetInt("categoryId")
 
 	if err := categoryService.DeleteCategory(categoryId); err != nil {
-		common.Render(ctx, status.InternalServerError, err)
+		common.Render(ctx, status.InternalServerError, err.Error())
 		return
 	}
 

@@ -16,7 +16,7 @@ func (*AuthorController) GetAuthorInfo(ctx iris.Context) {
 
 	author, err := authorService.GetFirstAuthor()
 	if err != nil {
-		common.Render(ctx, status.InternalServerError, err)
+		common.Render(ctx, status.InternalServerError, err.Error())
 		return
 	}
 
@@ -28,25 +28,26 @@ func (*AuthorController) UpdateAuthorInfo(ctx iris.Context) {
 
 	params := simplejson.New()
 	if err := ctx.ReadJSON(&params); err != nil {
-		common.Render(ctx, status.BadRequest, err)
+		common.Render(ctx, status.BadRequest, err.Error())
 		return
 	}
 
 	paramsMap, err := params.Map()
 	if err != nil {
-		common.Render(ctx, status.BadRequest, err)
+		common.Render(ctx, status.BadRequest, err.Error())
 		return
 	}
 
 	if err = authorService.UpdateFirstAuthor(paramsMap); err != nil {
-		common.Render(ctx, status.InternalServerError, err)
+		common.Render(ctx, status.InternalServerError, err.Error())
 		return
 	}
 
 	updated, err := authorService.GetFirstAuthor()
 	if err != nil {
-		common.Render(ctx, status.InternalServerError, err)
+		common.Render(ctx, status.InternalServerError, err.Error())
 		return
 	}
+
 	common.Render(ctx, status.Updated, updated.Mapping())
 }
