@@ -64,10 +64,11 @@ func main() {
 		}
 	}
 
+	// 填充默认账户名和密码
 	tx.Model(model.Account{}).Count(&count)
 	if count == 0 {
 		if err := tx.Create(&model.Account{
-			UserName: "admin",
+			UserName: "aurora",
 			Password: tool.Md5Encode("aurora"),
 		}).Error; err != nil {
 			tx.Rollback()
