@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"aurora/blog/api/common"
+	"aurora/blog/api/constant"
 	"aurora/blog/api/constant/status"
 	"aurora/blog/api/tool"
 	"github.com/kataras/iris/v12"
@@ -24,6 +25,6 @@ func (*Authorization) CheckToken(ctx iris.Context) {
 		return
 	}
 
-	ctx.Values().Set("claim", claim)
+	ctx.Values().Set(constant.ContextClaimKey, claim)
 	ctx.Next()
 }
