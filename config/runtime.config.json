@@ -27,5 +27,11 @@
         }
       }
     }
+  },
+  "authorization": {
+    "token": {
+      "expire": 3600,
+      "secret": "aurora-blog"
+    }
   }
 }

@@ -11,8 +11,6 @@ const (
 	NotFound   = 404
 
 	InternalServerError = 500
-	NotImplemented      = 501
-	ServiceUnavailable  = 503
 )
 
 var CodeMap = map[int]string{
@@ -24,6 +22,4 @@ var CodeMap = map[int]string{
 	403: "Forbidden",
 	404: "NotFound",
 	500: "InternalServerError",
-	501: "NotImplemented",
-	503: "ServiceUnavailable",
 }

@@ -10,4 +10,5 @@ func Setup(v router.Party) {
 	SetupCategory(api)
 	SetupTag(api)
 	SetupSite(api)
+	SetupAccount(api)
 }
