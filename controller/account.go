@@ -2,6 +2,7 @@ package controller
 
 import (
 	"aurora/blog/api/common"
+	"aurora/blog/api/constant"
 	"aurora/blog/api/constant/status"
 	"aurora/blog/api/entity"
 	"aurora/blog/api/model"
@@ -63,7 +64,7 @@ func (*AccountController) ChangePassword(ctx iris.Context) {
 	}
 
 	// 获取中间件中解析的 claim
-	if claim, ok := ctx.Values().Get("claim").(*entity.CustomClaim); ok {
+	if claim, ok := ctx.Values().Get(constant.ContextClaimKey).(*entity.CustomClaim); ok {
 		account.UserName = claim.UserName
 	}
 
