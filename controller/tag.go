@@ -5,7 +5,6 @@ import (
 	"aurora/blog/api/constant/status"
 	"aurora/blog/api/model"
 	"aurora/blog/api/service"
-	"aurora/blog/api/tool"
 	"github.com/bitly/go-simplejson"
 	"github.com/kataras/iris/v12"
 )
@@ -18,7 +17,7 @@ func (*TagController) GetTags(ctx iris.Context) {
 
 	tags, err := tagService.GetTags()
 	if err != nil {
-		common.Render(ctx, status.InternalServerError, err)
+		common.Render(ctx, status.InternalServerError, err.Error())
 		return
 	}
 
@@ -35,7 +34,7 @@ func (*TagController) CreateTag(ctx iris.Context) {
 
 	params := simplejson.New()
 	if err := ctx.ReadJSON(&params); err != nil {
-		common.Render(ctx, status.BadRequest, err)
+		common.Render(ctx, status.BadRequest, err.Error())
 		return
 	}
 
@@ -46,13 +45,14 @@ func (*TagController) CreateTag(ctx iris.Context) {
 
 	tagId, err := tagService.CreateTag(tag)
 	if err != nil {
-		common.Render(ctx, status.InternalServerError, err)
+		common.Render(ctx, status.InternalServerError, err.Error())
 		return
 	}
 
 	saved, err := tagService.GetTagById(tagId)
 	if err != nil {
-		common.Render(ctx, status.InternalServerError, err)
+		common.Render(ctx, status.InternalServerError, err.Error())
+		return
 	}
 
 	common.Render(ctx, status.Created, saved.Mapping())
@@ -60,8 +60,8 @@ func (*TagController) CreateTag(ctx iris.Context) {
 
 func (*TagController) DeleteTag(ctx iris.Context) {
 	tagService := service.TagService{}
-	tagId := tool.StringToInt(ctx.URLParam("id"))
-
+	tagId, _ := ctx.Params().GetInt("tagId")
+	
 	if err := tagService.DeleteTag(tagId); err != nil {
 		common.Render(ctx, status.InternalServerError, err)
 		return

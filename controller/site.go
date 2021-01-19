@@ -16,7 +16,7 @@ func (*SiteController) GetSiteInfo(ctx iris.Context) {
 
 	site, err := siteService.GetFirstSite()
 	if err != nil {
-		common.Render(ctx, status.InternalServerError, err)
+		common.Render(ctx, status.InternalServerError, err.Error())
 		return
 	}
 
@@ -28,24 +28,24 @@ func (*SiteController) UpdateSiteInfo(ctx iris.Context) {
 
 	params := simplejson.New()
 	if err := ctx.ReadJSON(&params); err != nil {
-		common.Render(ctx, status.BadRequest, err)
+		common.Render(ctx, status.BadRequest, err.Error())
 		return
 	}
 
 	paramsMap, err := params.Map()
 	if err != nil {
-		common.Render(ctx, status.BadRequest, err)
+		common.Render(ctx, status.BadRequest, err.Error())
 		return
 	}
 
 	if err = siteService.UpdateFirstSite(paramsMap); err != nil {
-		common.Render(ctx, status.InternalServerError, err)
+		common.Render(ctx, status.InternalServerError, err.Error())
 		return
 	}
 
 	updated, err := siteService.GetFirstSite()
 	if err != nil {
-		common.Render(ctx, status.InternalServerError, err)
+		common.Render(ctx, status.InternalServerError, err.Error())
 		return
 	}
 	common.Render(ctx, status.Updated, updated.Mapping())
