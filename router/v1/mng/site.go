@@ -13,5 +13,5 @@ func SetupSite(v router.Party) {
 	)
 
 	v.Get("/site", siteController.GetSiteInfo)
-	v.Post("/site", authorization.CheckToken, siteController.UpdateSiteInfo)
+	v.Put("/site", authorization.CheckToken, siteController.UpdateSiteInfo)
 }

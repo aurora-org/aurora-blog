@@ -37,3 +37,13 @@ func (*CategoryService) DeleteCategory(categoryId int) error {
 	}
 	return nil
 }
+
+func (*CategoryService) IsExistCategory(categoryName string) bool {
+	var count int
+	common.AuroraR.Model(model.Category{}).Where("name = ?", categoryName).Count(&count)
+	if count == 0 {
+		return false
+	} else {
+		return true
+	}
+}

@@ -13,6 +13,6 @@ func SetupTag(v router.Party) {
 	)
 
 	v.Get("/tags", tagController.GetTags)
-	v.Post("/tags", tagController.CreateTag)
+	v.Post("/tags", authorization.CheckToken, tagController.CreateTag)
 	v.Delete("/tags/{tagId:int}", authorization.CheckToken, tagController.DeleteTag)
 }
