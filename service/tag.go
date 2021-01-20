@@ -37,3 +37,13 @@ func (*TagService) DeleteTag(tagId int) error {
 	}
 	return nil
 }
+
+func (*TagService) IsExistTag(tagName string) bool {
+	var count int
+	common.AuroraR.Model(model.Tag{}).Where("name = ?", tagName).Count(&count)
+	if count == 0 {
+		return false
+	} else {
+		return true
+	}
+}

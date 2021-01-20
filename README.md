@@ -28,7 +28,7 @@ Blog System Based on Golang named Aurora
    mysql container.
 5. run sql in mysql
    container `SET GLOBAL sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';`
-6. config `aurora-blog/config/runtime.config.json` file to update database password.
+6. config `aurora-blog/config/runtime.config.json` file to update database config.
 7. type command `make config` to generate database table.
 8. type command `make dev` to start project.
 
