@@ -30,6 +30,9 @@ POST /mng/account/login
 
 ```json
 {
+    "Headers": {
+        "Content-Type": "application/json"
+    },
     "Body": {
         "userName": "aurora",
         "password": "aurora"
@@ -60,7 +63,8 @@ PUT /mng/account/password
 ```json
 {
     "Headers": {
-        "Authorization": "${token}"
+        "Authorization": "${token}",
+        "Content-Type": "application/json"
     },
     "Body": {
         "old": "aurora",
@@ -116,7 +120,8 @@ PUT /mng/author
 ```json
 {
     "Headers": {
-        "Authorization": "${token}"
+        "Authorization": "${token}",
+        "Content-Type": "application/json"
     },
     "Body": {
         "gender": 0
@@ -177,7 +182,8 @@ PUT /mng/site
 ```json
 {
     "Headers": {
-        "Authorization": "${token}"
+        "Authorization": "${token}",
+        "Content-Type": "application/json"
     },
     "Body": {
         "name": "Aurora"
@@ -320,7 +326,8 @@ POST /mng/articles
 ```json
 {
     "Headers": {
-        "Authorization": "${token}"
+        "Authorization": "${token}",
+        "Content-Type": "application/json"
     },
     "Body": {
         "title": "测试文章",
@@ -373,7 +380,8 @@ PUT /mng/articles/{id}
 ```json
 {
     "Headers": {
-        "Authorization": "${token}"
+        "Authorization": "${token}",
+        "Content-Type": "application/json"
     },
     "Body": {
  		"visible": false       
@@ -462,7 +470,8 @@ POST /mng/categories
 ```json
 {
     "Headers": {
-        "Authorization": "${token}"
+        "Authorization": "${token}",
+        "Content-Type": "application/json"
     },
     "Body": {
         "name": "Go",
@@ -547,7 +556,8 @@ POST /mng/tags
 ```json
 {
 	"Headers": {
-		"Authorization": "${token}"
+		"Authorization": "${token}",
+        "Content-Type": "application/json"
     },
     "Body": {
         "name": "Go"
