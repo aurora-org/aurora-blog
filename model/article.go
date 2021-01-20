@@ -1,5 +1,7 @@
 package model
 
+import "aurora/blog/api/constant"
+
 // 文章信息
 type Article struct {
 	Model
@@ -31,7 +33,7 @@ func (self *Article) Mapping() map[string]interface{} {
 		"times":     self.Times,
 		"visible":   self.Visible,
 		"extra":     self.Extra,
-		"createdAt": self.CreatedAt,
-		"updatedAt": self.UpdatedAt,
+		"createdAt": self.CreatedAt.Format(constant.SimpleTimeFormat),
+		"updatedAt": self.UpdatedAt.Format(constant.SimpleTimeFormat),
 	}
 }

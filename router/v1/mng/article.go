@@ -15,7 +15,9 @@ func SetupArticle(v router.Party) {
 	)
 
 	v.Get("/articles", pagination.Limit, articleController.GetArticles)
+	v.Get("/articles/{articleId:int}", articleController.GetArticle)
 	v.Post("/articles", authorization.CheckToken, articleController.CreateArticle)
+	v.Post("/articles/{articleId:int}", articleController.ReadArticle)
 	v.Put("/articles/{articleId:int}", authorization.CheckToken, articleController.UpdateArticle)
 	v.Delete("/articles/{articleId:int}", authorization.CheckToken, articleController.DeleteArticle)
 }
