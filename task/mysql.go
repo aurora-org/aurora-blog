@@ -63,7 +63,7 @@ func main() {
 			log.Fatal(err)
 		}
 	}
-
+  
 	// 填充默认账户名和密码
 	tx.Model(model.Account{}).Count(&count)
 	if count == 0 {
