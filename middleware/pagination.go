@@ -9,11 +9,11 @@ import (
 
 type Pagination struct{}
 
-// 分页参数校验，size 最大为500
+// 分页参数校验，size 最大为50
 func (*Pagination) Limit(ctx iris.Context) {
 	page := tool.StringToInt(ctx.URLParam("page"))
 	size := tool.StringToInt(ctx.URLParam("size"))
-	if page < 1 || size < 1 || size > 500 {
+	if page < 1 || size < 1 || size > 50 {
 		common.Render(ctx, status.BadRequest, "invalid pagination")
 		return
 	}
