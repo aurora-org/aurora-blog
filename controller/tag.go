@@ -43,6 +43,16 @@ func (*TagController) CreateTag(ctx iris.Context) {
 		Extra: params.Get("extra").MustString(),
 	}
 
+	if tag.Name == "" {
+		common.Render(ctx, status.BadRequest, "name is empty")
+		return
+	}
+
+	if tagService.IsExistTag(tag.Name) {
+		common.Render(ctx, status.BadRequest, "tag exist")
+		return
+	}
+
 	tagId, err := tagService.CreateTag(tag)
 	if err != nil {
 		common.Render(ctx, status.InternalServerError, err.Error())

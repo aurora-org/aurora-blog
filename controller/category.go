@@ -44,6 +44,16 @@ func (*CategoryController) CreateCategory(ctx iris.Context) {
 		Extra:       params.Get("extra").MustString(),
 	}
 
+	if category.Name == "" {
+		common.Render(ctx, status.BadRequest, "name is empty")
+		return
+	}
+
+	if categoryService.IsExistCategory(category.Name) {
+		common.Render(ctx, status.BadRequest, "category exist")
+		return
+	}
+
 	categoryId, err := categoryService.CreateCategory(category)
 	if err != nil {
 		common.Render(ctx, status.InternalServerError, err.Error())
