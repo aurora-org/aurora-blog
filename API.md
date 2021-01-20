@@ -19,6 +19,7 @@ NotFound   = 404
 InternalServerError = 500
 ```
 
+
 #### Account 账户相关
 
 ##### 账号登录
@@ -31,7 +32,7 @@ POST /mng/account/login
 {
     "Body": {
         "userName": "aurora",
-    	"password": "aurora"
+        "password": "aurora"
     }
 }
 ```
@@ -58,7 +59,7 @@ PUT /mng/account/password
 
 ```json
 {
-    "Header": {
+    "Headers": {
         "Authorization": "${token}"
     },
     "Body": {
@@ -114,7 +115,7 @@ PUT /mng/author
 
 ```json
 {
-    "Header": {
+    "Headers": {
         "Authorization": "${token}"
     },
     "Body": {
@@ -175,7 +176,7 @@ PUT /mng/site
 
 ```json
 {
-    "Header": {
+    "Headers": {
         "Authorization": "${token}"
     },
     "Body": {
@@ -206,11 +207,226 @@ PUT /mng/site
 
 ##### 获取文章列表
 
+GET /mng/articles?{page, size, tag, category, order, by}
+
+- Request
+
+> 该接口默认过滤设置为不可见的文章
+>
+> page 必填，为文章列表页码 ，1~N
+>
+> size 必填，为每页显示文章数 ，1~N （N <= 50)
+>
+> tag 可选，通过标签筛选文章
+>
+> category 可选，通过分类筛选文章
+>
+> order 可选，排序规则，默认为创建时间，可选 [ CREATE | UPDATE | TIMES ]
+>
+> by 可选，排序方式，默认降序排列，可选 [ ASC | DESC ]
+
+```json
+{
+    "Params": {
+        "page": 1,
+        "size": 10,
+        "tag": "default",
+        "category": "default",
+        "order": "TIMES",
+        "by": "ASC"
+    }
+}
+```
+
+- Response
+
+```json
+{
+    "code": 200,
+    "status": "OK",
+    "data": {
+        "pagination": {
+            "total": 2,
+            "page": 1,
+            "size": 10
+        },
+        "objects": [
+            {
+                "author": "big ass",
+                "banner": "https://www.baidu.com",
+                "category": "default",
+                "content": "test test test",
+                "createdAt": "2021-01-20T16:26:04+08:00",
+                "extra": "",
+                "id": 4,
+                "tag": "default",
+                "times": 0,
+                "title": "第四篇博客",
+                "updatedAt": "2021-01-20T16:26:04+08:00",
+                "visible": true
+            },
+            {
+                "author": "big ass",
+                "banner": "https://www.baidu.com",
+                "category": "default",
+                "content": "hello world",
+                "createdAt": "2021-01-20T16:25:44+08:00",
+                "extra": "",
+                "id": 3,
+                "tag": "default",
+                "times": 1,
+                "title": "第三篇博客",
+                "updatedAt": "2021-01-20T16:25:44+08:00",
+                "visible": true
+            }
+        ]
+    }
+}
+```
+
+##### 获取指定文章
+
+GET /mng/articles/{id}
+
+- Response
+
+```json
+{
+    "code": 200,
+    "status": "OK",
+    "data": {
+        "author": "big ass",
+        "banner": "https://www.baidu.com",
+        "category": "default",
+        "content": "hello world",
+        "createdAt": "2021-01-20T16:25:44+08:00",
+        "extra": "",
+        "id": 3,
+        "tag": "default",
+        "times": 1,
+        "title": "第三篇博客",
+        "updatedAt": "2021-01-20T16:25:44+08:00",
+        "visible": true
+    }
+}
+```
+
 ##### 新增文章
+
+POST /mng/articles
+
+- Request
+
+```json
+{
+    "Headers": {
+        "Authorization": "${token}"
+    },
+    "Body": {
+        "title": "测试文章",
+        "content": "test test test",
+        "banner": "https://www.baidu.com",
+        "tag": "default",
+        "category": "default",
+        "visible": true
+    }
+}
+```
+
+- Response
+
+```json
+{
+    "code": 201,
+    "status": "Created",
+    "data": {
+        "author": "big ass",
+        "banner": "https://www.baidu.com",
+        "category": "default",
+        "content": "test test test",
+        "createdAt": "2021-01-20 17:02:55",
+        "extra": "",
+        "id": 5,
+        "tag": "default",
+        "times": 0,
+        "title": "测试文章",
+        "updatedAt": "2021-01-20 17:02:55",
+        "visible": true
+    }
+}
+```
+
+##### 阅读指定文章
+
+POST /mng/articles/{id}
+
+> 调用该接口使文章阅读次数加一，无请求参数和响应体
 
 ##### 修改文章
 
+PUT /mng/articles/{id}
+
+- Request
+
+> 可修改文章标题，主图，内容，标签，分类以及可见性，传需要修改的字段即可
+
+```json
+{
+    "Headers": {
+        "Authorization": "${token}"
+    },
+    "Body": {
+ 		"visible": false       
+    }
+}
+```
+
+- Response
+
+```json
+{
+    "code": 202,
+    "status": "Updated",
+    "data": {
+        "author": "big ass",
+        "banner": "https://www.baidu.com",
+        "category": "default",
+        "content": "test test test",
+        "createdAt": "2021-01-20 17:02:55",
+        "extra": "",
+        "id": 5,
+        "tag": "default",
+        "times": 0,
+        "title": "测试文章",
+        "updatedAt": "2021-01-20 17:13:31",
+        "visible": false
+    }
+}
+```
+
 ##### 删除文章
+
+DELETE /mng/articles/{id}
+
+- Request
+
+```json
+{
+    "Headers": {
+        "Authorization": "${token}"
+    }
+}
+```
+
+- Response
+
+```json
+{
+    "code": 203,
+    "status": "Deleted",
+    "data": "${id}"
+}
+```
 
 #### Category 分类相关
 
@@ -245,7 +461,7 @@ POST /mng/categories
 
 ```json
 {
-    "Header": {
+    "Headers": {
         "Authorization": "${token}"
     },
     "Body": {
@@ -280,7 +496,7 @@ DELETE /mng/categories/{id}
 
 ```json
 {
-    "Header": {
+    "Headers": {
         "Authorization": "${token}"
     }
 }
@@ -330,7 +546,7 @@ POST /mng/tags
 
 ```json
 {
-	"Header": {
+	"Headers": {
 		"Authorization": "${token}"
     },
     "Body": {
@@ -363,7 +579,7 @@ DELETE /mng/tags/{id}
 
 ```json
 {
-    "Header": {
+    "Headers": {
         "Authorization": "${token}"
     }
 }
