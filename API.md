@@ -62,10 +62,8 @@ PUT /mng/account/password
         "Authorization": "${token}"
     },
     "Body": {
-        {
-            "old": "aurora",
-            "new": "123456"
-        }
+        "old": "aurora",
+        "new": "123456"
     }
 }
 ```
@@ -251,10 +249,8 @@ POST /mng/categories
         "Authorization": "${token}"
     },
     "Body": {
-        {
-            "name": "Go",
-            "description": "编程语言"
-        }
+        "name": "Go",
+        "description": "编程语言"
     }
 }
 ```
@@ -338,9 +334,7 @@ POST /mng/tags
 		"Authorization": "${token}"
     },
     "Body": {
-        {
-            "name": "Go",
-        }
+        "name": "Go"
     }
 }
 ```
