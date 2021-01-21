@@ -1,0 +1,30 @@
+version: '3'
+
+networks:
+  aurora:
+
+services:
+
+  db:
+    image: mysql:latest
+    container_name: aurora-db
+    restart: always
+    ports:
+      - "3306:3306"
+    hostname: mysql-host
+    environment:
+      MYSQL_ROOT_PASSWORD: aurora
+    networks:
+      - aurora
+
+  api:
+    image: aurora:latest
+    container_name: aurora-api
+    depends_on:
+      - mysql-service
+    ports:
+      - "8080:8080"
+      - "8888:8888"
+    hostname: aurora-host
+    networks:
+      - aurora
