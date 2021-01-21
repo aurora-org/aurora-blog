@@ -1,7 +1,8 @@
 GO = GO111MODULE=on GOPROXY="https://goproxy.cn,direct" go
 ENTRY = main.go
 RUNTIME_CONFIG_FILE = ./config/runtime.config
-BINARY_NAME = ./aurora
+BINARY_PATH = ./aurora
+IMAGE_NAME = aurora
 
 # config
 config:
@@ -9,24 +10,29 @@ config:
 
 # compile
 binary:
-	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 ${GO} build -o ${BINARY_NAME}
+	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 ${GO} build -o ${BINARY_PATH}
 
-# serve
-development:
+# develop
+develop:
 	${GO} run ${ENTRY} -conf ${RUNTIME_CONFIG_FILE}
-server:
-	${BINARY_NAME} -conf ${RUNTIME_CONFIG_FILE}
+
+# server
+server: binary
+	${BINARY_PATH} -conf ${RUNTIME_CONFIG_FILE}
+
+# docker image
+image: binary
+	docker build -t ${IMAGE_NAME} .
 
 # clean
 clean:
-	rm ${BINARY_NAME}
+	rm ${BINARY_PATH}
 
 # help
 help: binary
 	${BINARY_NAME} -h
 
 # alias
-package: binary
-dev: development
+dev: develop
 
-.PHONY: config binary development server clean help package dev
+.PHONY: config binary develop server image clean help dev
