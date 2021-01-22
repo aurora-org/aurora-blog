@@ -21,7 +21,7 @@ services:
       - aurora
 
   api:
-    image: aurora:latest
+    image: qmdx00/aurora:latest
     container_name: aurora-api
     restart: always
     depends_on:

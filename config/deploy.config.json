@@ -1,11 +1,6 @@
 {
   "name": "Aurora Blog V1.0",
   "isDevelopment": false,
-  "server": {
-    "log": {
-      "file": "aurora.log"
-    }
-  },
   "config": {
     "database": {
       "aurora-db": {
