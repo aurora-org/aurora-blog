@@ -11,20 +11,24 @@ services:
     restart: always
     ports:
       - "3306:3306"
-    hostname: mysql-host
+    hostname: db
+    command: --default-time-zone=+8:00
     environment:
-      MYSQL_ROOT_PASSWORD: aurora
+      MYSQL_DATABASE: aurora-db
+      MYSQL_USER: aurora
+      MYSQL_PASSWORD: aurora
     networks:
       - aurora
 
   api:
-    image: aurora:latest
+    image: qmdx00/aurora:latest
     container_name: aurora-api
+    restart: always
     depends_on:
-      - mysql-service
+      - db
     ports:
       - "8080:8080"
       - "8888:8888"
-    hostname: aurora-host
+    hostname: api
     networks:
       - aurora

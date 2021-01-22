@@ -3,9 +3,7 @@ package server
 import (
 	"aurora/blog/api/common"
 	"aurora/blog/api/router"
-	"github.com/graphql-go/handler"
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/context"
 	"log"
 )
 
@@ -20,11 +18,8 @@ func SetupServer() {
 func SetupGraphQL() {
 	app := iris.New()
 	app.Use(common.NewPanicHandler)
-	app.Get("/graphql", func(ctx context.Context) {
-		handler.New(&handler.Config{
-			// Todo
-		})
-	})
+	// Todo graphql api
+	//app.Get("/graphql")
 
 	go func() {
 		defer func() {

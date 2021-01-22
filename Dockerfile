@@ -1,5 +1,6 @@
 FROM alpine:latest
 WORKDIR /app
+ENV ZONEINFO=/app/zoneinfo.zip
 COPY . .
 EXPOSE 8080 8888
-ENTRYPOINT ["nohup", "./aurora", "-conf", "./config/runtime.config"]
+ENTRYPOINT ["sh", "./entrypoint.sh"]

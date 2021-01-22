@@ -1,5 +1,7 @@
 /.idea/
 /.vscode/
 /vendor/
-**/aurora
+aurora
+aurora-image
+zoneinfo.zip
 **/.DS_Store

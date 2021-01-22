@@ -1,3 +1,5 @@
 *
 !/config
 !aurora
+!zoneinfo.zip
+!entrypoint.sh

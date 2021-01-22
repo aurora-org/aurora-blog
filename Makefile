@@ -2,7 +2,7 @@ GO = GO111MODULE=on GOPROXY="https://goproxy.cn,direct" go
 ENTRY = main.go
 RUNTIME_CONFIG_FILE = ./config/runtime.config
 BINARY_PATH = ./aurora
-IMAGE_NAME = aurora
+IMAGE_NAME = qmdx00/aurora
 
 # config
 config:
@@ -11,6 +11,7 @@ config:
 # compile
 binary:
 	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 ${GO} build -o ${BINARY_PATH}
+	cp /usr/local/go/lib/time/zoneinfo.zip zoneinfo.zip
 
 # develop
 develop:
