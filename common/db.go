@@ -26,7 +26,7 @@ func _setupDB(name string, readOnly bool) *gorm.DB {
 	host := viper.GetString(prefix + ".host")
 	port := viper.GetString(prefix + ".port")
 
-	url := mustache.Render("{{user}}:{{password}}@tcp({{host}}:{{port}})/{{database}}?charset=utf8&parseTime=True&loc=Local", map[string]interface{}{
+	url := mustache.Render("{{user}}:{{password}}@tcp({{host}}:{{port}})/{{database}}?charset=utf8&parseTime=True&loc=Asia%2FShanghai", map[string]interface{}{
 		"user":     user,
 		"password": password,
 		"database": database,

@@ -11,6 +11,7 @@ config:
 # compile
 binary:
 	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 ${GO} build -o ${BINARY_PATH}
+	cp /usr/local/go/lib/time/zoneinfo.zip zoneinfo.zip
 
 # develop
 develop:
