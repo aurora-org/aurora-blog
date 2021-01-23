@@ -3,6 +3,7 @@ ENTRY = main.go
 RUNTIME_CONFIG_FILE = ./config/runtime.config
 BINARY_PATH = ./aurora
 IMAGE_NAME = qmdx00/aurora
+ZONEINFO = zoneinfo.zip
 
 # config
 config:
@@ -11,7 +12,7 @@ config:
 # compile
 binary:
 	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 ${GO} build -o ${BINARY_PATH}
-	cp /usr/local/go/lib/time/zoneinfo.zip zoneinfo.zip
+	cp /usr/local/go/lib/time/${ZONEINFO} ${ZONEINFO}
 
 # develop
 develop:
@@ -28,10 +29,11 @@ image: binary
 # clean
 clean:
 	rm ${BINARY_PATH}
+	rm ${ZONEINFO}
 
 # help
 help: binary
-	${BINARY_NAME} -h
+	${BINARY_PATH} -h
 
 # alias
 dev: develop
