@@ -25,7 +25,7 @@ func (self *Site) Mapping() map[string]interface{} {
 		"name":      self.Name,
 		"beiAn":     self.BeiAn,
 		"powered":   self.Powered,
-		"startAt":   self.StartAt,
+		"startAt":   self.StartAt.Format(constant.SimpleTimeFormat),
 		"extra":     self.Extra,
 		"createdAt": self.CreatedAt.Format(constant.SimpleTimeFormat),
 		"updatedAt": self.UpdatedAt.Format(constant.SimpleTimeFormat),
