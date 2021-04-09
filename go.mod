@@ -9,8 +9,6 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/go-sql-driver/mysql v1.5.0
-	github.com/graphql-go/graphql v0.7.9 // indirect
-	github.com/graphql-go/handler v0.2.3
 	github.com/hoisie/mustache v0.0.0-20160804235033-6375acf62c69
 	github.com/iris-contrib/middleware/cors v0.0.0-20210110101738-6d0a4d799b5d
 	github.com/jinzhu/gorm v1.9.16
