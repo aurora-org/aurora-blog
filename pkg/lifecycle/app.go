@@ -22,6 +22,7 @@ type AppInfo interface {
 	Endpoint() []string
 }
 
+// App application struct.
 type App struct {
 	opts     options
 	ctx      context.Context
@@ -29,6 +30,7 @@ type App struct {
 	instance *ServiceInstance
 }
 
+// New return new App
 func New(opts ...Option) *App {
 	options := options{
 		ctx:    context.Background(),
@@ -64,7 +66,7 @@ func (a *App) Metadata() map[string]string { return a.opts.metadata }
 // Endpoint returns endpoints.
 func (a *App) Endpoint() []string { return a.instance.Endpoint }
 
-// Run ...
+// Run start application.
 func (a *App) Run() error {
 	instance, err := a.buildInstance()
 	if err != nil {
@@ -72,7 +74,7 @@ func (a *App) Run() error {
 	}
 	ctx := NewContext(a.ctx, a)
 	group, ctx := errgroup.WithContext(ctx)
-	wg := sync.WaitGroup{}
+	wg := &sync.WaitGroup{}
 
 	// start servers
 	for _, srv := range a.opts.servers {
@@ -86,9 +88,10 @@ func (a *App) Run() error {
 			return srv.Start(ctx)
 		})
 	}
+	// waiting for app server start
 	wg.Wait()
 
-	// register instance
+	// register instance.
 	if a.opts.registrar != nil {
 		if err := a.opts.registrar.Register(a.opts.ctx, instance); err != nil {
 			return err
@@ -117,17 +120,20 @@ func (a *App) Run() error {
 
 // Stop gracefully stops the application.
 func (a *App) Stop() error {
-	//if a.opts.registrar != nil && a.instance != nil {
-	//	if err := a.opts.registrar.Deregister(a.opts.ctx, a.instance); err != nil {
-	//		return err
-	//	}
-	//}
+	// deregister instance
+	if a.opts.registrar != nil && a.instance != nil {
+		if err := a.opts.registrar.Deregister(a.opts.ctx, a.instance); err != nil {
+			return err
+		}
+	}
+	// cancel context
 	if a.cancel != nil {
 		a.cancel()
 	}
 	return nil
 }
 
+// buildInstance build ServiceInstance with options.endpoints
 func (a *App) buildInstance() (*ServiceInstance, error) {
 	var endpoints []string
 	for _, e := range a.opts.endpoints {
@@ -153,6 +159,7 @@ func (a *App) buildInstance() (*ServiceInstance, error) {
 	}, nil
 }
 
+// appKey app context key
 type appKey struct{}
 
 // NewContext returns a new Context that carries value.
