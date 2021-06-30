@@ -2,10 +2,15 @@ package lifecycle
 
 import (
 	"context"
+	"errors"
 	"github.com/google/uuid"
 	"log"
 	"os"
+	"os/signal"
+	"sync"
 	"syscall"
+
+	"golang.org/x/sync/errgroup"
 )
 
 // AppInfo application context value.
@@ -18,10 +23,9 @@ type AppInfo interface {
 }
 
 type App struct {
-	opts   options
-	ctx    context.Context
-	cancel func()
-	//servers []*http.Server
+	opts     options
+	ctx      context.Context
+	cancel   func()
 	instance *ServiceInstance
 }
 
@@ -62,12 +66,102 @@ func (a *App) Endpoint() []string { return a.instance.Endpoint }
 
 // Run ...
 func (a *App) Run() error {
-	// Todo
+	instance, err := a.buildInstance()
+	if err != nil {
+		return err
+	}
+	ctx := NewContext(a.ctx, a)
+	group, ctx := errgroup.WithContext(ctx)
+	wg := sync.WaitGroup{}
+
+	// start servers
+	for _, srv := range a.opts.servers {
+		group.Go(func() error {
+			<-ctx.Done()
+			return srv.Stop(ctx)
+		})
+		wg.Add(1)
+		group.Go(func() error {
+			wg.Done()
+			return srv.Start(ctx)
+		})
+	}
+	wg.Wait()
+
+	// register instance
+	if a.opts.registrar != nil {
+		if err := a.opts.registrar.Register(a.opts.ctx, instance); err != nil {
+			return err
+		}
+		a.instance = instance
+	}
+
+	// wait for os signal
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, a.opts.sigs...)
+	group.Go(func() error {
+		for {
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			case <-sigs:
+				return a.Stop()
+			}
+		}
+	})
+	if err := group.Wait(); err != nil && !errors.Is(err, context.Canceled) {
+		return err
+	}
 	return nil
 }
 
 // Stop gracefully stops the application.
 func (a *App) Stop() error {
-	// Todo
+	//if a.opts.registrar != nil && a.instance != nil {
+	//	if err := a.opts.registrar.Deregister(a.opts.ctx, a.instance); err != nil {
+	//		return err
+	//	}
+	//}
+	if a.cancel != nil {
+		a.cancel()
+	}
 	return nil
+}
+
+func (a *App) buildInstance() (*ServiceInstance, error) {
+	var endpoints []string
+	for _, e := range a.opts.endpoints {
+		endpoints = append(endpoints, e.String())
+	}
+	if len(endpoints) == 0 {
+		for _, srv := range a.opts.servers {
+			if r, ok := srv.(Endpointer); ok {
+				e, err := r.Endpoint()
+				if err != nil {
+					return nil, err
+				}
+				endpoints = append(endpoints, e.String())
+			}
+		}
+	}
+	return &ServiceInstance{
+		ID:       a.opts.id,
+		Name:     a.opts.name,
+		Version:  a.opts.version,
+		Metadata: a.opts.metadata,
+		Endpoint: endpoints,
+	}, nil
+}
+
+type appKey struct{}
+
+// NewContext returns a new Context that carries value.
+func NewContext(ctx context.Context, s AppInfo) context.Context {
+	return context.WithValue(ctx, appKey{}, s)
+}
+
+// FromContext returns the Transport value stored in ctx, if any.
+func FromContext(ctx context.Context) (s AppInfo, ok bool) {
+	s, ok = ctx.Value(appKey{}).(AppInfo)
+	return
 }

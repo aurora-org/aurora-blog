@@ -21,57 +21,57 @@ type options struct {
 	ctx  context.Context
 	sigs []os.Signal
 
-	logger *log.Logger
-	//registrar registry.Registrar
-	//servers []transport.Server
+	logger    *log.Logger
+	registrar Registrar
+	servers   []Server
 }
 
-// ID with service id.
-func ID(id string) Option {
+// WithID with service id.
+func WithID(id string) Option {
 	return func(o *options) { o.id = id }
 }
 
-// Name with service name.
-func Name(name string) Option {
+// WithName with service name.
+func WithName(name string) Option {
 	return func(o *options) { o.name = name }
 }
 
-// Version with service version.
-func Version(version string) Option {
+// WithVersion with service version.
+func WithVersion(version string) Option {
 	return func(o *options) { o.version = version }
 }
 
-// Metadata with service metadata.
-func Metadata(md map[string]string) Option {
+// WithMetadata with service metadata.
+func WithMetadata(md map[string]string) Option {
 	return func(o *options) { o.metadata = md }
 }
 
-// Endpoint with service endpoint.
-func Endpoint(endpoints ...*url.URL) Option {
+// WithEndpoint with service endpoint.
+func WithEndpoint(endpoints ...*url.URL) Option {
 	return func(o *options) { o.endpoints = endpoints }
 }
 
-// Context with service context.
-func Context(ctx context.Context) Option {
+// WithContext with service context.
+func WithContext(ctx context.Context) Option {
 	return func(o *options) { o.ctx = ctx }
 }
 
-// Logger with service logger.
-func Logger(logger *log.Logger) Option {
+// WithLogger with service logger.
+func WithLogger(logger *log.Logger) Option {
 	return func(o *options) { o.logger = logger }
 }
 
-// Signal with exit signals.
-func Signal(sigs ...os.Signal) Option {
+// WithSignal with exit signals.
+func WithSignal(sigs ...os.Signal) Option {
 	return func(o *options) { o.sigs = sigs }
 }
 
-//// Registrar with service registry.
-//func Registrar(r registry.Registrar) Option {
-//	return func(o *options) { o.registrar = r }
-//}
+// WithRegistrar with service registry.
+func WithRegistrar(r Registrar) Option {
+	return func(o *options) { o.registrar = r }
+}
 
-//// Server with transport servers.
-//func Server(srv ...transport.Server) Option {
-//	return func(o *options) { o.servers = srv }
-//}
+// WithServer with transport servers.
+func WithServer(srv ...Server) Option {
+	return func(o *options) { o.servers = srv }
+}
