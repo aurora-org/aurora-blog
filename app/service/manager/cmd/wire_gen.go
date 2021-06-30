@@ -6,22 +6,26 @@
 package main
 
 import (
+	"aurora/blog/api/app/service/manager/internal/biz"
 	"aurora/blog/api/app/service/manager/internal/data"
 	"aurora/blog/api/app/service/manager/internal/server"
+	"aurora/blog/api/app/service/manager/internal/service"
 	"aurora/blog/api/pkg/lifecycle"
-	"aurora/blog/api/pkg/registry"
 )
 
 // Injectors from wire.go:
 
 func initApp() (*lifecycle.App, func(), error) {
-	lifecycleServer := server.NewHttpServer()
-	registrar := registry.New()
-	dataData, cleanup, err := data.NewData()
+	repo, cleanup, err := data.NewData()
 	if err != nil {
 		return nil, nil, err
 	}
-	app := newApp(lifecycleServer, registrar, dataData)
+	bizBiz := biz.NewBiz(repo)
+	serviceService := service.NewService(bizBiz)
+	engine := server.NewHttpRouter(serviceService)
+	lifecycleServer := server.NewHttpServer(engine)
+	registrar := server.NewRegistrar()
+	app := newApp(lifecycleServer, registrar)
 	return app, func() {
 		cleanup()
 	}, nil

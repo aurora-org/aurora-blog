@@ -8,8 +8,8 @@ import (
 // ProvideSet for service package ...
 var ProvideSet = wire.NewSet(NewService)
 
-func NewService(repo biz.Repo) *Service {
+func NewService(biz *biz.Biz) *Service {
 	return &Service{
-		repo: repo,
+		biz: biz,
 	}
 }

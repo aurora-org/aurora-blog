@@ -7,11 +7,11 @@ import (
 )
 
 type Service struct {
-	repo biz.Repo
+	biz *biz.Biz
 }
 
 func (s *Service) Hello(ctx *gin.Context) {
-	str, err := s.repo.Hello()
+	str, err := s.biz.Hello()
 	if err != nil {
 		return
 	}
