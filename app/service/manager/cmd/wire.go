@@ -4,6 +4,7 @@ package main
 
 import (
 	"aurora/blog/api/app/service/manager/internal/biz"
+	"aurora/blog/api/app/service/manager/internal/conf"
 	"aurora/blog/api/app/service/manager/internal/data"
 	"aurora/blog/api/app/service/manager/internal/server"
 	"aurora/blog/api/app/service/manager/internal/service"
@@ -12,5 +13,5 @@ import (
 )
 
 func initApp() (*lifecycle.App, func(), error) {
-	panic(wire.Build(server.ProvideSet, service.ProvideSet, biz.ProvideSet, data.ProvideSet, newApp))
+	panic(wire.Build(server.ProvideSet, service.ProvideSet, biz.ProvideSet, data.ProvideSet, conf.ProvideSet, newApp))
 }

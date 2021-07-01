@@ -10,9 +10,9 @@ type Registrar interface {
 
 // ServiceInstance ...
 type ServiceInstance struct {
-	ID       string            `json:"id"`
-	Name     string            `json:"name"`
-	Version  string            `json:"version"`
-	Metadata map[string]string `json:"metadata"`
-	Endpoint []string          `json:"endpoint"`
+	ID        string            `json:"id"`
+	Name      string            `json:"name"`
+	Version   string            `json:"version"`
+	Metadata  map[string]string `json:"metadata"`
+	Endpoints []string          `json:"endpoints"`
 }

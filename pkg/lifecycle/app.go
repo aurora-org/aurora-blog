@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 	"github.com/google/uuid"
-	"log"
+	"go.uber.org/zap"
 	"os"
 	"os/signal"
 	"sync"
@@ -36,7 +36,7 @@ type App struct {
 func New(opts ...Option) *App {
 	options := options{
 		ctx:    context.Background(),
-		logger: log.Default(),
+		logger: zap.NewExample(),
 		sigs:   []os.Signal{syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGINT},
 	}
 	if id, err := uuid.NewUUID(); err == nil {
@@ -66,7 +66,7 @@ func (a *App) Version() string { return a.opts.version }
 func (a *App) Metadata() map[string]string { return a.opts.metadata }
 
 // Endpoint returns endpoints.
-func (a *App) Endpoint() []string { return a.instance.Endpoint }
+func (a *App) Endpoint() []string { return a.instance.Endpoints }
 
 // Run start application.
 func (a *App) Run() error {
@@ -137,7 +137,7 @@ func (a *App) Stop() error {
 
 // buildInstance build ServiceInstance with options.endpoints
 func (a *App) buildInstance() (*registry.ServiceInstance, error) {
-	var endpoints []string
+	endpoints := make([]string, 0)
 	for _, e := range a.opts.endpoints {
 		endpoints = append(endpoints, e.String())
 	}
@@ -153,11 +153,11 @@ func (a *App) buildInstance() (*registry.ServiceInstance, error) {
 		}
 	}
 	return &registry.ServiceInstance{
-		ID:       a.opts.id,
-		Name:     a.opts.name,
-		Version:  a.opts.version,
-		Metadata: a.opts.metadata,
-		Endpoint: endpoints,
+		ID:        a.opts.id,
+		Name:      a.opts.name,
+		Version:   a.opts.version,
+		Metadata:  a.opts.metadata,
+		Endpoints: endpoints,
 	}, nil
 }
 

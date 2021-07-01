@@ -4,7 +4,7 @@ import (
 	"aurora/blog/api/pkg/registry"
 	"aurora/blog/api/pkg/transport"
 	"context"
-	"log"
+	"go.uber.org/zap"
 	"net/url"
 	"os"
 )
@@ -23,7 +23,7 @@ type options struct {
 	ctx  context.Context
 	sigs []os.Signal
 
-	logger    *log.Logger
+	logger    *zap.Logger
 	registrar registry.Registrar
 	servers   []transport.Server
 }
@@ -59,7 +59,7 @@ func WithContext(ctx context.Context) Option {
 }
 
 // WithLogger with service logger.
-func WithLogger(logger *log.Logger) Option {
+func WithLogger(logger *zap.Logger) Option {
 	return func(o *options) { o.logger = logger }
 }
 
