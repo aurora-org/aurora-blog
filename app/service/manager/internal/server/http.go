@@ -5,10 +5,12 @@ import (
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type HttpServer struct {
 	engine *gin.Engine
+	*http.Server
 }
 
 func (h *HttpServer) Start(ctx context.Context) error {

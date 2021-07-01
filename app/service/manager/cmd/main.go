@@ -2,15 +2,15 @@ package main
 
 import (
 	"aurora/blog/api/pkg/lifecycle"
+	"aurora/blog/api/pkg/transport"
 )
 
-func newApp(server lifecycle.Server, registrar lifecycle.Registrar) *lifecycle.App {
+func newApp(server transport.Server) *lifecycle.App {
 	return lifecycle.New(
 		lifecycle.WithName("manager"),
 		lifecycle.WithVersion("v1.0"),
 		lifecycle.WithMetadata(map[string]string{}),
-		lifecycle.WithServer(server),
-		lifecycle.WithRegistrar(registrar))
+		lifecycle.WithServer(server))
 }
 
 func main() {

@@ -1,6 +1,8 @@
 package lifecycle
 
 import (
+	"aurora/blog/api/pkg/registry"
+	"aurora/blog/api/pkg/transport"
 	"context"
 	"errors"
 	"github.com/google/uuid"
@@ -27,7 +29,7 @@ type App struct {
 	opts     options
 	ctx      context.Context
 	cancel   func()
-	instance *ServiceInstance
+	instance *registry.ServiceInstance
 }
 
 // New return new App
@@ -134,14 +136,14 @@ func (a *App) Stop() error {
 }
 
 // buildInstance build ServiceInstance with options.endpoints
-func (a *App) buildInstance() (*ServiceInstance, error) {
+func (a *App) buildInstance() (*registry.ServiceInstance, error) {
 	var endpoints []string
 	for _, e := range a.opts.endpoints {
 		endpoints = append(endpoints, e.String())
 	}
 	if len(endpoints) == 0 {
 		for _, srv := range a.opts.servers {
-			if r, ok := srv.(Endpointer); ok {
+			if r, ok := srv.(transport.Endpointer); ok {
 				e, err := r.Endpoint()
 				if err != nil {
 					return nil, err
@@ -150,7 +152,7 @@ func (a *App) buildInstance() (*ServiceInstance, error) {
 			}
 		}
 	}
-	return &ServiceInstance{
+	return &registry.ServiceInstance{
 		ID:       a.opts.id,
 		Name:     a.opts.name,
 		Version:  a.opts.version,

@@ -23,9 +23,8 @@ func initApp() (*lifecycle.App, func(), error) {
 	bizBiz := biz.NewBiz(repo)
 	serviceService := service.NewService(bizBiz)
 	engine := server.NewHttpRouter(serviceService)
-	lifecycleServer := server.NewHttpServer(engine)
-	registrar := server.NewRegistrar()
-	app := newApp(lifecycleServer, registrar)
+	transportServer := server.NewHttpServer(engine)
+	app := newApp(transportServer)
 	return app, func() {
 		cleanup()
 	}, nil

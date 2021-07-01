@@ -17,5 +17,9 @@ func NewHttpRouter(service *service.Service) *gin.Engine {
 }
 
 func httpRouter(app *gin.Engine, service *service.Service) {
-	app.GET("/hello", service.Hello)
+	v := app.Group("/v1")
+	// hello router
+	{
+		v.GET("/hello", service.Hello)
+	}
 }

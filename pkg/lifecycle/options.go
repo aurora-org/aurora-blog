@@ -1,6 +1,8 @@
 package lifecycle
 
 import (
+	"aurora/blog/api/pkg/registry"
+	"aurora/blog/api/pkg/transport"
 	"context"
 	"log"
 	"net/url"
@@ -22,8 +24,8 @@ type options struct {
 	sigs []os.Signal
 
 	logger    *log.Logger
-	registrar Registrar
-	servers   []Server
+	registrar registry.Registrar
+	servers   []transport.Server
 }
 
 // WithID with service id.
@@ -67,11 +69,11 @@ func WithSignal(sigs ...os.Signal) Option {
 }
 
 // WithRegistrar with service registry.
-func WithRegistrar(r Registrar) Option {
+func WithRegistrar(r registry.Registrar) Option {
 	return func(o *options) { o.registrar = r }
 }
 
 // WithServer with transport servers.
-func WithServer(srv ...Server) Option {
+func WithServer(srv ...transport.Server) Option {
 	return func(o *options) { o.servers = srv }
 }
