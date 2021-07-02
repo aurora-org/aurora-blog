@@ -13,5 +13,5 @@ type Server interface {
 
 // Endpointer ...
 type Endpointer interface {
-	Endpoint() (*url.URL, error)
+	Endpoint() *url.URL
 }

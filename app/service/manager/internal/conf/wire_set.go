@@ -6,9 +6,10 @@ import (
 	"go.uber.org/zap"
 )
 
-// ProvideSet for data package ...
-var ProvideSet = wire.NewSet(NewLogger)
+// ProvideSet for conf package ...
+var ProvideSet = wire.NewSet(NewZapLogger, NewServerConfig, NewDataConfig)
 
-func NewLogger() *zap.Logger {
+// NewZapLogger return new *zap.Logger
+func NewZapLogger() *zap.Logger {
 	return log.NewLogger("aurora-manager")
 }

@@ -17,15 +17,18 @@ import (
 // Injectors from wire.go:
 
 func initApp() (*lifecycle.App, func(), error) {
-	logger := conf.NewLogger()
-	repo, cleanup, err := data.NewData(logger)
+	logger := conf.NewZapLogger()
+	configData := conf.NewDataConfig()
+	dataData, cleanup, err := data.NewData(logger, configData)
 	if err != nil {
 		return nil, nil, err
 	}
+	repo := data.NewHelloRepo(dataData, logger)
 	bizBiz := biz.NewBiz(repo)
-	serviceService := service.NewService(bizBiz)
-	engine := server.NewHttpRouter(serviceService, logger)
-	transportServer := server.NewHttpServer(engine, logger)
+	helloService := service.NewHelloService(bizBiz)
+	engine := server.NewHttpRouter(helloService, logger)
+	configServer := conf.NewServerConfig()
+	transportServer := server.NewHttpServer(engine, logger, configServer)
 	app := newApp(transportServer, logger)
 	return app, func() {
 		cleanup()

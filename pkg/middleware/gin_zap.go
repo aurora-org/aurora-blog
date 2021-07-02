@@ -15,7 +15,7 @@ import (
 )
 
 // Ginzap returns a gin.HandlerFunc (middleware)
-func Ginzap(logger *zap.Logger, msg string) gin.HandlerFunc {
+func Ginzap(logger *zap.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// flushes buffer, if any
 		defer logger.Sync()
@@ -34,7 +34,7 @@ func Ginzap(logger *zap.Logger, msg string) gin.HandlerFunc {
 				logger.Error(e)
 			}
 		} else {
-			logger.Info(fmt.Sprintf("[GIN] %s", msg),
+			logger.Info(fmt.Sprintf("[GIN REQUEST]"),
 				zap.Int("status", c.Writer.Status()),
 				zap.String("method", c.Request.Method),
 				zap.String("path", path),

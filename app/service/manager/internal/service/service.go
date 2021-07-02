@@ -6,12 +6,19 @@ import (
 	"net/http"
 )
 
-type Service struct {
+type HelloService struct {
 	biz *biz.Biz
 }
 
-func (s *Service) Hello(ctx *gin.Context) {
-	str, err := s.biz.Hello()
+func NewHelloService(biz *biz.Biz) *HelloService {
+	return &HelloService{
+		biz: biz,
+	}
+}
+
+
+func (s *HelloService) Hello(ctx *gin.Context) {
+	str, err := s.biz.HelloWorld()
 	if err != nil {
 		return
 	}

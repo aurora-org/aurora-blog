@@ -7,12 +7,11 @@ import (
 	"errors"
 	"github.com/google/uuid"
 	"go.uber.org/zap"
+	"golang.org/x/sync/errgroup"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
-
-	"golang.org/x/sync/errgroup"
 )
 
 // AppInfo application context value.
@@ -70,13 +69,15 @@ func (a *App) Endpoint() []string { return a.instance.Endpoints }
 
 // Run start application.
 func (a *App) Run() error {
-	instance, err := a.buildInstance()
-	if err != nil {
-		return err
-	}
+	var err error
 	ctx := NewContext(a.ctx, a)
 	group, ctx := errgroup.WithContext(ctx)
 	wg := &sync.WaitGroup{}
+
+	a.instance, err = a.buildInstance()
+	if err != nil {
+		return err
+	}
 
 	// start servers
 	for _, srv := range a.opts.servers {
@@ -95,10 +96,9 @@ func (a *App) Run() error {
 
 	// register instance.
 	if a.opts.registrar != nil {
-		if err := a.opts.registrar.Register(a.opts.ctx, instance); err != nil {
+		if err := a.opts.registrar.Register(a.opts.ctx, a.instance); err != nil {
 			return err
 		}
-		a.instance = instance
 	}
 
 	// wait for os signal
@@ -144,11 +144,7 @@ func (a *App) buildInstance() (*registry.ServiceInstance, error) {
 	if len(endpoints) == 0 {
 		for _, srv := range a.opts.servers {
 			if r, ok := srv.(transport.Endpointer); ok {
-				e, err := r.Endpoint()
-				if err != nil {
-					return nil, err
-				}
-				endpoints = append(endpoints, e.String())
+				endpoints = append(endpoints, r.Endpoint().String())
 			}
 		}
 	}
