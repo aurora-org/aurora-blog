@@ -9,7 +9,7 @@ import (
 
 // call chain: data -> biz -> service -> server
 // NewHttpRouter set gin.Engine as http.Handler
-func NewHttpRouter(service *service.HelloService, logger *zap.Logger) *gin.Engine {
+func NewHttpRouter(service *service.UserService, logger *zap.Logger) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 
 	engine := gin.New()
@@ -17,6 +17,6 @@ func NewHttpRouter(service *service.HelloService, logger *zap.Logger) *gin.Engin
 	engine.Use(middleware.RecoveryWithZap(logger, true))
 	// set router
 	mng := engine.Group("/v1/mng")
-	RegisterHelloRouter(mng, service)
+	RegisterUserRouter(mng, service)
 	return engine
 }

@@ -5,8 +5,8 @@ import (
 )
 
 // ProvideSet for biz package ...
-var ProvideSet = wire.NewSet(NewBiz)
+var ProvideSet = wire.NewSet(NewUserBusiness)
 
-func NewBiz(repo Repo) *Biz {
-	return &Biz{repo: repo}
+func NewUserBusiness(repo UserRepo) *UserBusiness {
+	return &UserBusiness{repo: repo}
 }

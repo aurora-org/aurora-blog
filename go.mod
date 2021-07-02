@@ -3,9 +3,9 @@ module aurora/blog/api
 go 1.15
 
 require (
-	github.com/gin-contrib/zap v0.0.1
+	entgo.io/ent v0.8.0
 	github.com/gin-gonic/gin v1.7.2
-	github.com/go-sql-driver/mysql v1.5.0
+	github.com/go-sql-driver/mysql v1.5.1-0.20200311113236-681ffa848bae
 	github.com/google/uuid v1.2.0
 	github.com/google/wire v0.5.0
 	github.com/jinzhu/gorm v1.9.16

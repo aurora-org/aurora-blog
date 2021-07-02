@@ -23,10 +23,10 @@ func initApp() (*lifecycle.App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	repo := data.NewHelloRepo(dataData, logger)
-	bizBiz := biz.NewBiz(repo)
-	helloService := service.NewHelloService(bizBiz)
-	engine := server.NewHttpRouter(helloService, logger)
+	userRepo := data.NewUserRepo(dataData, logger)
+	userBusiness := biz.NewUserBusiness(userRepo)
+	userService := service.NewUserService(userBusiness, logger)
+	engine := server.NewHttpRouter(userService, logger)
 	configServer := conf.NewServerConfig()
 	transportServer := server.NewHttpServer(engine, logger, configServer)
 	app := newApp(transportServer, logger)

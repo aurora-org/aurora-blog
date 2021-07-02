@@ -10,9 +10,6 @@ func newApp(server transport.Server, logger *zap.Logger) *lifecycle.App {
 	return lifecycle.New(
 		lifecycle.WithName("manager"),
 		lifecycle.WithVersion("1.0"),
-		//lifecycle.WithEndpoint(&url.URL{
-		//	Host:        "127.0.0.1",
-		//}),
 		lifecycle.WithMetadata(map[string]string{}),
 		lifecycle.WithLogger(logger),
 		lifecycle.WithServer(server))
