@@ -5,4 +5,12 @@ import (
 )
 
 // ProvideSet for service package ...
-var ProvideSet = wire.NewSet(NewUserService)
+var ProvideSet = wire.NewSet(
+	NewAccountService,
+	NewArticleService,
+	NewCategoryService,
+	NewSiteService,
+	NewTagService,
+	NewThemeService,
+	NewUserService,
+)

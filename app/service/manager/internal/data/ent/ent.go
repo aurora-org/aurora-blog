@@ -3,6 +3,12 @@
 package ent
 
 import (
+	"aurora/blog/api/app/service/manager/internal/data/ent/account"
+	"aurora/blog/api/app/service/manager/internal/data/ent/article"
+	"aurora/blog/api/app/service/manager/internal/data/ent/category"
+	"aurora/blog/api/app/service/manager/internal/data/ent/site"
+	"aurora/blog/api/app/service/manager/internal/data/ent/tag"
+	"aurora/blog/api/app/service/manager/internal/data/ent/theme"
 	"aurora/blog/api/app/service/manager/internal/data/ent/user"
 	"errors"
 	"fmt"
@@ -31,7 +37,13 @@ type OrderFunc func(*sql.Selector)
 // columnChecker returns a function indicates if the column exists in the given column.
 func columnChecker(table string) func(string) error {
 	checks := map[string]func(string) bool{
-		user.Table: user.ValidColumn,
+		account.Table:  account.ValidColumn,
+		article.Table:  article.ValidColumn,
+		category.Table: category.ValidColumn,
+		site.Table:     site.ValidColumn,
+		tag.Table:      tag.ValidColumn,
+		theme.Table:    theme.ValidColumn,
+		user.Table:     user.ValidColumn,
 	}
 	check, ok := checks[table]
 	if !ok {

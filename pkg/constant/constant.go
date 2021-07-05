@@ -5,3 +5,11 @@ const (
 	SimpleTimeStringFormat = "20060102150405"
 	ContextClaimKey        = "claim"
 )
+
+var (
+	SexMap = map[int]string{
+		0: "UNKNOWN",
+		1: "MALE",
+		2: "FEMALE",
+	}
+)

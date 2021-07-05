@@ -6,8 +6,9 @@ import (
 )
 
 func RegisterUserRouter(group *gin.RouterGroup, service *service.UserService) {
-	v := group.Group("/user")
 
-	v.GET("/", service.CreateUser)
+	group.POST("/users", service.CreateUser)
+	group.GET("/users", service.GetAllUser)
+	group.GET("/users/:id", service.GetUserByID)
+
 }
-

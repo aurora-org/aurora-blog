@@ -1,16 +1,25 @@
 package data
 
 import (
+	"aurora/blog/api/app/service/manager/internal/data/ent"
 	"aurora/blog/api/pkg/config"
 	"context"
-	"entgo.io/ent/examples/start/ent"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/wire"
 	"go.uber.org/zap"
 )
 
 // ProvideSet for data package ...
-var ProvideSet = wire.NewSet(NewData, NewUserRepo)
+var ProvideSet = wire.NewSet(
+	NewData,
+	NewAccountRepo,
+	NewArticleRepo,
+	NewCategoryRepo,
+	NewSiteRepo,
+	NewTagRepo,
+	NewThemeRepo,
+	NewUserRepo,
+)
 
 // NewData return new *gorm.DB wrapper.
 func NewData(logger *zap.Logger, config config.Data) (*Data, func(), error) {

@@ -2,8 +2,96 @@
 
 package ent
 
+import (
+	"aurora/blog/api/app/service/manager/internal/data/ent/account"
+	"aurora/blog/api/app/service/manager/internal/data/ent/article"
+	"aurora/blog/api/app/service/manager/internal/data/ent/category"
+	"aurora/blog/api/app/service/manager/internal/data/ent/schema"
+	"aurora/blog/api/app/service/manager/internal/data/ent/site"
+	"aurora/blog/api/app/service/manager/internal/data/ent/tag"
+	"aurora/blog/api/app/service/manager/internal/data/ent/theme"
+	"aurora/blog/api/app/service/manager/internal/data/ent/user"
+	"time"
+
+	"github.com/google/uuid"
+)
+
 // The init function reads all schema descriptors with runtime code
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	accountFields := schema.Account{}.Fields()
+	_ = accountFields
+	// accountDescCreatedAt is the schema descriptor for createdAt field.
+	accountDescCreatedAt := accountFields[1].Descriptor()
+	// account.DefaultCreatedAt holds the default value on creation for the createdAt field.
+	account.DefaultCreatedAt = accountDescCreatedAt.Default.(func() time.Time)
+	// accountDescUpdatedAt is the schema descriptor for updatedAt field.
+	accountDescUpdatedAt := accountFields[2].Descriptor()
+	// account.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
+	account.DefaultUpdatedAt = accountDescUpdatedAt.Default.(func() time.Time)
+	articleFields := schema.Article{}.Fields()
+	_ = articleFields
+	// articleDescCreatedAt is the schema descriptor for createdAt field.
+	articleDescCreatedAt := articleFields[0].Descriptor()
+	// article.DefaultCreatedAt holds the default value on creation for the createdAt field.
+	article.DefaultCreatedAt = articleDescCreatedAt.Default.(func() time.Time)
+	// articleDescUpdatedAt is the schema descriptor for updatedAt field.
+	articleDescUpdatedAt := articleFields[1].Descriptor()
+	// article.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
+	article.DefaultUpdatedAt = articleDescUpdatedAt.Default.(func() time.Time)
+	categoryFields := schema.Category{}.Fields()
+	_ = categoryFields
+	// categoryDescCreatedAt is the schema descriptor for createdAt field.
+	categoryDescCreatedAt := categoryFields[0].Descriptor()
+	// category.DefaultCreatedAt holds the default value on creation for the createdAt field.
+	category.DefaultCreatedAt = categoryDescCreatedAt.Default.(func() time.Time)
+	// categoryDescUpdatedAt is the schema descriptor for updatedAt field.
+	categoryDescUpdatedAt := categoryFields[1].Descriptor()
+	// category.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
+	category.DefaultUpdatedAt = categoryDescUpdatedAt.Default.(func() time.Time)
+	siteFields := schema.Site{}.Fields()
+	_ = siteFields
+	// siteDescCreatedAt is the schema descriptor for createdAt field.
+	siteDescCreatedAt := siteFields[0].Descriptor()
+	// site.DefaultCreatedAt holds the default value on creation for the createdAt field.
+	site.DefaultCreatedAt = siteDescCreatedAt.Default.(func() time.Time)
+	// siteDescUpdatedAt is the schema descriptor for updatedAt field.
+	siteDescUpdatedAt := siteFields[1].Descriptor()
+	// site.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
+	site.DefaultUpdatedAt = siteDescUpdatedAt.Default.(func() time.Time)
+	tagFields := schema.Tag{}.Fields()
+	_ = tagFields
+	// tagDescCreatedAt is the schema descriptor for createdAt field.
+	tagDescCreatedAt := tagFields[0].Descriptor()
+	// tag.DefaultCreatedAt holds the default value on creation for the createdAt field.
+	tag.DefaultCreatedAt = tagDescCreatedAt.Default.(func() time.Time)
+	// tagDescUpdatedAt is the schema descriptor for updatedAt field.
+	tagDescUpdatedAt := tagFields[1].Descriptor()
+	// tag.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
+	tag.DefaultUpdatedAt = tagDescUpdatedAt.Default.(func() time.Time)
+	themeFields := schema.Theme{}.Fields()
+	_ = themeFields
+	// themeDescCreatedAt is the schema descriptor for createdAt field.
+	themeDescCreatedAt := themeFields[0].Descriptor()
+	// theme.DefaultCreatedAt holds the default value on creation for the createdAt field.
+	theme.DefaultCreatedAt = themeDescCreatedAt.Default.(func() time.Time)
+	// themeDescUpdatedAt is the schema descriptor for updatedAt field.
+	themeDescUpdatedAt := themeFields[1].Descriptor()
+	// theme.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
+	theme.DefaultUpdatedAt = themeDescUpdatedAt.Default.(func() time.Time)
+	userFields := schema.User{}.Fields()
+	_ = userFields
+	// userDescUUID is the schema descriptor for uuid field.
+	userDescUUID := userFields[0].Descriptor()
+	// user.DefaultUUID holds the default value on creation for the uuid field.
+	user.DefaultUUID = userDescUUID.Default.(func() uuid.UUID)
+	// userDescCreatedAt is the schema descriptor for createdAt field.
+	userDescCreatedAt := userFields[8].Descriptor()
+	// user.DefaultCreatedAt holds the default value on creation for the createdAt field.
+	user.DefaultCreatedAt = userDescCreatedAt.Default.(func() time.Time)
+	// userDescUpdatedAt is the schema descriptor for updatedAt field.
+	userDescUpdatedAt := userFields[9].Descriptor()
+	// user.DefaultUpdatedAt holds the default value on creation for the updatedAt field.
+	user.DefaultUpdatedAt = userDescUpdatedAt.Default.(func() time.Time)
 }

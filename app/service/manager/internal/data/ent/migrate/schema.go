@@ -8,10 +8,106 @@ import (
 )
 
 var (
+	// AccountsColumns holds the columns for the "accounts" table.
+	AccountsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "password", Type: field.TypeString},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "user_account", Type: field.TypeInt, Nullable: true},
+	}
+	// AccountsTable holds the schema information for the "accounts" table.
+	AccountsTable = &schema.Table{
+		Name:       "accounts",
+		Columns:    AccountsColumns,
+		PrimaryKey: []*schema.Column{AccountsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "accounts_users_account",
+				Columns:    []*schema.Column{AccountsColumns[4]},
+				RefColumns: []*schema.Column{UsersColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+	}
+	// ArticlesColumns holds the columns for the "articles" table.
+	ArticlesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+	}
+	// ArticlesTable holds the schema information for the "articles" table.
+	ArticlesTable = &schema.Table{
+		Name:        "articles",
+		Columns:     ArticlesColumns,
+		PrimaryKey:  []*schema.Column{ArticlesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{},
+	}
+	// CategoriesColumns holds the columns for the "categories" table.
+	CategoriesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+	}
+	// CategoriesTable holds the schema information for the "categories" table.
+	CategoriesTable = &schema.Table{
+		Name:        "categories",
+		Columns:     CategoriesColumns,
+		PrimaryKey:  []*schema.Column{CategoriesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{},
+	}
+	// SitesColumns holds the columns for the "sites" table.
+	SitesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+	}
+	// SitesTable holds the schema information for the "sites" table.
+	SitesTable = &schema.Table{
+		Name:        "sites",
+		Columns:     SitesColumns,
+		PrimaryKey:  []*schema.Column{SitesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{},
+	}
+	// TagsColumns holds the columns for the "tags" table.
+	TagsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+	}
+	// TagsTable holds the schema information for the "tags" table.
+	TagsTable = &schema.Table{
+		Name:        "tags",
+		Columns:     TagsColumns,
+		PrimaryKey:  []*schema.Column{TagsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{},
+	}
+	// ThemesColumns holds the columns for the "themes" table.
+	ThemesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
+	}
+	// ThemesTable holds the schema information for the "themes" table.
+	ThemesTable = &schema.Table{
+		Name:        "themes",
+		Columns:     ThemesColumns,
+		PrimaryKey:  []*schema.Column{ThemesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{},
+	}
 	// UsersColumns holds the columns for the "users" table.
 	UsersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "uuid", Type: field.TypeUUID},
+		{Name: "avater", Type: field.TypeString},
+		{Name: "email", Type: field.TypeString},
+		{Name: "sex", Type: field.TypeString},
+		{Name: "extra", Type: field.TypeString},
+		{Name: "birthday", Type: field.TypeTime},
 		{Name: "name", Type: field.TypeString},
+		{Name: "nickname", Type: field.TypeString, Unique: true},
+		{Name: "created_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime},
 	}
 	// UsersTable holds the schema information for the "users" table.
 	UsersTable = &schema.Table{
@@ -22,9 +118,16 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		AccountsTable,
+		ArticlesTable,
+		CategoriesTable,
+		SitesTable,
+		TagsTable,
+		ThemesTable,
 		UsersTable,
 	}
 )
 
 func init() {
+	AccountsTable.ForeignKeys[0].RefTable = UsersTable
 }
